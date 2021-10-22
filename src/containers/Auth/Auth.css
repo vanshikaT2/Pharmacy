@@ -1,5 +1,98 @@
-.Input {
-    width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
+.Login{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    overflow-y: scroll;
+    background-image: url('../../assets/Auth.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
 }
+
+.formBlockWrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    transition:all .85s ease-in-out;
+    opacity: .92;
+    /* background-color: #2C497F; */
+    /* background-color: rgb(36, 160, 148); */
+    background-color: rgb(21, 117, 93);
+   
+}
+
+.formBlock {
+    position: relative;
+    margin: 100px auto 0;
+    width: 285px;
+    padding: 25px;
+    background: rgba(255, 255, 255, .13);
+    border-radius: 2px;
+    color: #fff;
+    box-shadow:0px 0px 16px 9px rgba(0,0,0,0.07);
+}
+
+.formBlockHeader {
+    margin-bottom: 20px;
+}
+.formBlockHeader h1 {
+    font-size: 30px;
+    margin: 0 0 20px;
+}
+
+.formBlockInputWrapper {
+    height: 126px;
+    position: relative;
+    margin-bottom: 2px;
+    transition:all .25s cubic-bezier(.36,1,.62,.98) .3s;
+}
+
+.formGroupInput {
+    display: block;
+    font-size: 15px;
+    color: #fff;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 16px;
+    padding: 14px 10px;
+    margin-bottom: 15px;
+    background: rgba(255,255,255,.25);
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 1px;
+    
+    /* .form-group--login & {
+        opacity: 1;
+    } */
+}
+
+.formGroupInput:focus {
+    outline: none;
+    border: 1px solid #fff;
+    background: transparent;
+}
+
+.button {
+    display: inline-block;
+    padding: 15px 12px;
+    margin-bottom: 0;
+    font-size: 16px;
+    font-weight: 400;
+    text-transform: uppercase;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    background-image: none;
+    border: none;
+    border-radius: 2px;
+    transition:all .2s ease-in-out;
+    box-shadow:0px 0px 13px 8px rgba(0,0,0,0.1);
+        background: #ED6A5E;
+        color: #fff;
+        box-shadow:0px 0px 18px 15px rgba(0,0,0,0.15);
+        width: 100%;
+}
+

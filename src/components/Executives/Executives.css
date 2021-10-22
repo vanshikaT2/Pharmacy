@@ -1,0 +1,77 @@
+.MuiTableRow-root {
+    color: inherit;
+    display: table-row;
+    outline: 0;
+    vertical-align: middle;
+}
+.MuiTableCell-head {
+    color: rgba(0, 0, 0, 0.87);
+    font-weight: 500;
+    line-height: 1.5rem;
+}
+.Exec{
+    width: 80%;
+    margin-left: 13rem;
+    margin-top:5rem;
+    display: inline-block;
+    position: relative;
+    /* flex-direction: row-reverse; */
+}
+
+.button,.add,.cancel {
+    display: inline-block;
+    padding: 15px 12px;
+    margin-bottom: 2px;
+    margin-left: 840px;
+    font-size: 16px;
+    font-weight: 400;
+    text-transform: uppercase;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    background-image: none;
+    border: none;
+    border-radius: 4px;
+    transition:all .2s ease-in-out;
+    box-shadow:0px 0px 13px 8px rgba(0,0,0,0.1);
+        background: #ED6A5E;
+        color: #fff;
+        box-shadow:0px 0px 18px 15px rgba(0,0,0,0.15);
+        width: 25%;
+}
+.add{
+    display: inline-block;
+    margin: auto;
+    background: #000;
+}
+.cancel{
+    display: inline-block;
+    margin: auto;
+    margin-left: 220px;
+    margin-right: 5px;
+}
+
+.ModalInput{
+    display: inline-block;
+    font-size: 15px;
+    color: rgb(0, 0, 0);
+    width: 48.5%;
+    box-sizing: border-box;
+    font-size: 16px;
+    padding: 14px 10px;
+    margin-right:10px ;
+    margin-bottom: 15px;
+    /* background: rgba(255,255,255,.25); */
+    background: rgba(10, 10, 10, 0.4);
+    /* background: rgb(41, 39, 39); */
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 1px;
+    z-index: 200;
+    
+}
+.ModalInput:focus{
+    outline: none;
+    border: 1px solid rgb(136, 135, 135);
+    background: transparent;
+}

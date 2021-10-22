@@ -1,0 +1,106 @@
+.Order{
+    width: fit-content;
+    margin-left: 13rem;
+    margin-top: 5rem;
+    display: inline-block;
+    /* flex-direction: row-reverse; */
+    position: relative;
+}
+.med{
+    width: 10rem;
+}
+.formGroupInput,.Select {
+    display: inline-block;
+    font-size: 15px;
+    color: #fff;
+    width: 48.5%;
+    box-sizing: border-box;
+    font-size: 16px;
+    padding: 14px 10px;
+    margin-right:10px ;
+    margin-bottom: 15px;
+    /* background: rgba(255,255,255,.25); */
+    background: rgba(10, 10, 10, 0.4);
+    /* background: rgb(41, 39, 39); */
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 1px;
+    
+    /* .form-group--login & {
+        opacity: 1;
+    } */
+}
+.Select{
+    width:43%;
+}
+
+.formGroupInput:focus , .Select:focus{
+    outline: none;
+    border: 1px solid #fff;
+    background: transparent;
+}
+.add {
+    /* display: flex; */
+    /* flex-direction: column-reverse; */
+     padding: 12px;
+    /* margin-bottom: 2px;
+    margin-left: 840px;  */
+    font-size: 16px;
+    font-weight: 400;
+    text-transform: uppercase;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    background-image: none;
+    border: none;
+    border-radius: 4px;
+    transition:all .2s ease-in-out;
+    /* box-shadow:0px 0px 1px 1px rgba(0,0,0,0.1); */
+        background: #f9ffda;
+        color: rgb(0, 0, 0);
+        box-shadow:0px 0px 1px 1px rgba(0,0,0,0.15);
+        width: 10%;
+        height: 40px;
+}
+.Total{
+    /* position: relative; */
+    /* margin:150px 220px; */
+    margin:auto;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 280px;
+    padding: 25px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 2px;
+    color: #fff;
+    box-shadow:0px 0px 16px 9px rgba(0,0,0,0.07);
+    font-size: large;
+}
+.PlaceOrder{
+        /* display: inline-block;
+        padding: 15px 12px;
+        margin-bottom: 2px;
+        margin-left: 840px; */
+        margin-left: 400px;
+        margin-top: 5px;
+        font-size: 16px;
+        font-weight: 400;
+        text-transform: uppercase;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        cursor: pointer;
+        background-image: none;
+        border: none;
+        border-radius: 4px;
+        transition:all .2s ease-in-out;
+        /* box-shadow:0px 0px 1px 1px rgba(0,0,0,0.1); */
+            background: #f17469;
+            color:#fff;
+            box-shadow:0px 0px 1px 1px rgba(0,0,0,0.15);
+            width: 170px;
+            height: 50px;
+    }
+

@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { connect } from 'react-redux';
+import { mergeClasses } from "@material-ui/styles";
+import classes from './Auth.css';
 
 class Auth extends Component {
-    componentDidMount(){
+    componentDidMount() {
         console.log(this.props);
     }
     state = {
@@ -13,9 +15,9 @@ class Auth extends Component {
     }
 
     userChangedHandler = (event) => {
-        this.setState(prevState=>({
+        this.setState(prevState => ({
             ...prevState,
-                username:event.target.value
+            username: event.target.value
         }))
         // console.log(event.target.value)
     }
@@ -41,8 +43,7 @@ class Auth extends Component {
             // }))
             this.props.history.push('/sales');
         }
-        else
-        {
+        else {
             this.props.history.push('/error');
         }
 
@@ -58,12 +59,28 @@ class Auth extends Component {
     render() {
         console.log(this.state.username, this.state.password)
         return (
-            <div>
-                <form>
-                    <input value={this.state.username} placeholder='Username' onChange={(event) => this.userChangedHandler(event)}></input>
-                    <input value={this.state.password} placeholder='Password' onChange={(event) => this.passChangedHandler(event)}></input>
-                    <button onClick={this.checkValidity}>LOG IN</button>
-                </form>
+            // <div>
+            //     <form className={classes.Form}>
+            //         <div>LOG IN</div>
+            //         <input className={classes.Input} value={this.state.username} placeholder='Username' onChange={(event) => this.userChangedHandler(event)}></input>
+            //         <input className={classes.Input} type="password" value={this.state.password} placeholder='Password' onChange={(event) => this.passChangedHandler(event)}></input>
+            //         <button onClick={this.checkValidity}>LOG IN</button>
+            //     </form>
+            // </div>
+            <div className={classes.Login}>
+                <div className={classes.formBlockWrapper} ></div>
+                <section className={classes.formBlock}>
+                    <header className={classes.formBlockHeader}>
+                        <h1>Log In</h1>
+                    </header>
+                    <div className={classes.formBlockInputWrapper}>
+                        <div className={classes.formGroup}>
+                            <input className={classes.formGroupInput} value={this.state.username} placeholder='Username' onChange={(event) => this.userChangedHandler(event)} type="text" id="username" placeholder="user name" />
+                            <input className={classes.formGroupInput} value={this.state.password} placeholder='Password' onChange={(event) => this.passChangedHandler(event)} type="password" id="password" placeholder="password" />
+                        </div>
+                    </div>
+                    <button className={classes.button} type="submit" onClick={this.checkValidity}>Log In</button>
+                </section>
             </div>
         );
     }

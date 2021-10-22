@@ -1,0 +1,26 @@
+
+.active{
+    border-right:4px solid white;
+}
+.Item{
+    text-decoration: none;
+    width: 85%;
+    padding:1rem 0 ;
+    cursor: pointer;
+    display: flex;
+    padding-left:1rem;
+    color: white;
+    margin-right: 0.75rem;
+}
+.Item img{
+    width: 1.6rem;
+    height: auto;
+    filter: invert(92%) sepia(4%) saturate(1033%) hue-rotate(169deg) brightness(78%) contrast(85%);
+    margin-left: 0.5rem;
+}
+.Item:hover{
+    border-right: 4px solid white;
+}
+.Item:hover img{
+    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(93deg) brightness(103%) contrast(103%);
+}

@@ -6,15 +6,16 @@ import registerServiceWorker from './registerServiceWorker';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import {createStore} from 'redux';
+import reducer from './containers/store/reducers/placeOrder';
 
-// const store=createStore(reducer);
+const store=createStore(reducer);
 
 const app=(
-    // <Provider store={store}>
+    <Provider store={store}>
     <BrowserRouter>
         <App/>
     </BrowserRouter>
-    // </Provider>
+    </Provider>
 );
 
 ReactDOM.render(app, document.getElementById('root'));
