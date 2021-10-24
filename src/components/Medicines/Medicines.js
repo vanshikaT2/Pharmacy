@@ -7,14 +7,15 @@ import Delete from '../Delete/Delete';
 import { connect } from 'react-redux';
 import * as actionTypes from '../../containers/store/actions/actionTypes';
 import { createTheme, MuiThemeProvider } from '@material-ui/core/styles';
+import Table from '../Table/Table';
 
 
-let arr = [];
-let data = [];
+// let arr = [];
+// let data = [];
 
-class Medicines extends Component{
+class Medicines extends Component {
     state = {
-        openModal:false,
+        openModal: false,
         medicine: {
             name: '',
             manu: '',
@@ -22,8 +23,10 @@ class Medicines extends Component{
             stock: '',
             disc: ''
         },
-        index:undefined,
-        openUpdateModal:false,
+        index: undefined,
+        openUpdateModal: false,
+        arr: [],
+        data: []
     }
     cancelHandler = () => {
         this.setState({ openModal: false })
@@ -34,7 +37,7 @@ class Medicines extends Component{
                 manu: '',
                 price: '',
                 stock: '',
-                disc:''
+                disc: ''
             }
         })
     };
@@ -87,142 +90,156 @@ class Medicines extends Component{
     addMed = () => {
         const index = this.state.index
         console.log(index)
-        arr = [];
-        arr.push(this.state.medicine.name);
-        arr.push(this.state.medicine.manu);
-        arr.push(this.state.medicine.price);
-        arr.push(this.state.medicine.stock);
-        arr.push(this.state.medicine.disc);
-        
-        if (index === undefined){
-        
-        data.push(arr);
-        this.setState({ openModal: false })
-        console.log(arr);
+        this.state.arr.push(this.state.medicine.name);
+        this.state.arr.push(this.state.medicine.manu);
+        this.state.arr.push(this.state.medicine.price);
+        this.state.arr.push(this.state.medicine.stock);
+        this.state.arr.push(this.state.medicine.disc);
+
+        if (index === undefined) {
+
+            this.state.data.push(this.state.arr);
+            this.setState({ openModal: false })
+            // console.log(arr);
         }
-        else{
-            data[index] = arr
+        else {
+            this.state.data[index] = this.state.arr
             this.setState({ openUpdateModal: false })
         }
-        this.setState( {index: undefined})
-        this.setState({ openModal: false })
-        this.props.onMedicineAdded(data); 
+        this.setState({ index: undefined })
+        this.setState({ openModal: false, arr: [] })
+        // this.props.onMedicineAdded(this.state.data);
         this.setState({
             medicine: {
                 name: '',
                 manu: '',
                 price: '',
                 stock: '',
-                disc:''
+                disc: ''
             }
-            
+
         })
-        
+        localStorage.setItem("medData", JSON.stringify(this.state.data));
+        this.props.onMedicineAdded(this.state.data);
+
+
     };
 
-    updateMed = (index) =>  {
-        this.setState( { index: index});
-        this.setState({ openUpdateModal: true});
-        this.setState({medicine:{
-            name:data[index][0],
-            manu:data[index][1],
-            price:data[index][2],
-            stock:data[index][3],
-            disc:data[index][4],
-        }})
-
-    }; 
-    deleteMed = (index) =>  {
-        this.setState( { index: index});
-        data.splice(index, 1);
-        this.setState( {index: undefined})
-        console.log(data);
-
-    }; 
-
-    
-    getMuiTheme = () => createTheme({
-        overrides: {
-          MUIDataTableHeadCell: {
-            root: {
-              borderColor: "black"
-            },
-            data:{
-                fontSize:"18px"
+    updateMed = (index) => {
+        // let index = event.target.parentNode.parentNode.id;
+        this.setState({ index: index });
+        this.setState({ openUpdateModal: true });
+        this.setState({
+            medicine: {
+                name: this.state.data[index][0],
+                manu: this.state.data[index][1],
+                price: this.state.data[index][2],
+                stock: this.state.data[index][3],
+                disc: this.state.data[index][4],
             }
-          },
-          MuiIconButton:{
-              label:{
-                  display:"none"
-              }
-          },
-          MuiTablePagination:{
-              toolbar:{
-                  display:"none"
-              }
-          },
-          MUIDataTableToolbar:{
-              root:{
-                backgroundColor: "#FFE7E7"
-              }
-          },
-          MuiTypography:{
-              h6:{
-                fontSize: "1.5rem",
-                fontFamily: "Noto Sans Mono, monospace"
-              }
-          },
-          MUIDataTableBodyCell:{
-              root:{
-                  fontSize:"1rem",
-                  color:"#4f4e4e"
-              }
-          },
-        }
-      })
+        })
+        localStorage.setItem("medData", JSON.stringify(this.state.data));
+
+    };
+    deleteMed = (index) => {
+        this.setState({ index: index });
+        this.state.data.splice(index, 1);
+        this.setState({ index: undefined })
+        // console.log(data);
+        localStorage.setItem("medData", JSON.stringify(this.state.data));
 
 
+    };
 
 
+    // getMuiTheme = () => createTheme({
+    //     overrides: {
+    //         MUIDataTableHeadCell: {
+    //             root: {
+    //                 borderColor: "black"
+    //             },
+    //             data: {
+    //                 fontSize: "18px"
+    //             }
+    //         },
+    //         MuiIconButton: {
+    //             label: {
+    //                 display: "none"
+    //             }
+    //         },
+    //         MuiTablePagination: {
+    //             toolbar: {
+    //                 display: "none"
+    //             }
+    //         },
+    //         MUIDataTableToolbar: {
+    //             root: {
+    //                 backgroundColor: "#FFE7E7"
+    //             }
+    //         },
+    //         MuiTypography: {
+    //             h6: {
+    //                 fontSize: "1.5rem",
+    //                 fontFamily: "Noto Sans Mono, monospace"
+    //             }
+    //         },
+    //         MUIDataTableBodyCell: {
+    //             root: {
+    //                 fontSize: "1rem",
+    //                 color: "#4f4e4e"
+    //             }
+    //         },
+    //     }
+    // })
+
+    componentDidMount() {
+        let meds = JSON.parse(localStorage.getItem("medData"));
+        // console.log(execs)
+        let data = meds !== null ? [...meds] : [];
+        console.log(data);
+        // this.setState({ data: data })
+        this.props.onMedicineAdded(data);
+        this.setState({ data: data })
+    }
 
     render() {
 
         const columns = [
-            "Medicine Name", "Manufacturer", "Price", "Stock", "Discount(in %)",
-            {
-                name: "",
-                options: {
-                    customBodyRender: (value, tableMeta, updateValue) => {
-                        
-                        return (
-                            
-                            <Update 
-                             function = {() => this.updateMed(tableMeta.rowIndex)}
-                            />
-                        ); 
-                    }
-                }
-            },
-            {
-                name: "",
-                options: {
-                    customBodyRender: (value, tableMeta, updateValue) => {
-                        
-                        return (
-                            
-                            <Delete 
-                             function = {() => this.deleteMed(tableMeta.rowIndex)}
-                            />
-                        ); 
-                    }
-                }
-            }];
+            "Medicine Name", "Manufacturer", "Price", "Stock", "Discount(in %)", "", ""];
+        // {
+        //     name: "",
+        //     options: {
+        //         customBodyRender: (value, tableMeta, updateValue) => {
 
-        const options = {
-            viewColumns: false,
-            print: false,
-            download: false
-        };
+        //             return (
+
+        //                 <Update
+        //                     function={() => this.updateMed(tableMeta.rowIndex)}
+        //                 />
+        //             );
+        //         }
+        //     }
+        // },
+        // {
+        //     name: "",
+        //     options: {
+        //         customBodyRender: (value, tableMeta, updateValue) => {
+
+        //             return (
+
+        //                 <Delete
+        //                     function={() => this.deleteMed(tableMeta.rowIndex)}
+        //                 />
+        //             );
+        //         }
+        //     }
+        // }
+
+        // const options = {
+        //     viewColumns: false,
+        //     print: false,
+        //     download: false
+        // };
         return (
             <div className={classes.Med}>
 
@@ -253,15 +270,16 @@ class Medicines extends Component{
                         Update
                     </button>
                 </Modal>
-                <MuiThemeProvider theme={this.getMuiTheme()}>
-                <MUIDataTable
-                    title={"Inventory"}
-                    data={data}
-                    columns={columns}
-                    options={options}
+                {/* <MuiThemeProvider theme={this.getMuiTheme()}>
+                    <MUIDataTable
+                        title={"Inventory"}
+                        data={this.state.data}
+                        columns={columns}
+                        options={options}
 
-                />
-                </MuiThemeProvider>
+                    />
+                </MuiThemeProvider> */}
+                <Table heading={columns} body={this.state.data} Update={this.updateMed} Delete={this.deleteMed} />
             </div>
         )
     }
@@ -269,8 +287,8 @@ class Medicines extends Component{
 
 const mapDispatchToProps = dispatch => {
     return {
-        onMedicineAdded: (invent) => dispatch({type:actionTypes.ADD_INVENTORY, data:invent})
+        onMedicineAdded: (invent) => dispatch({ type: actionTypes.ADD_INVENTORY, data: invent })
     }
 }
 
-export default connect( null,mapDispatchToProps)(Medicines);
+export default connect(null, mapDispatchToProps)(Medicines);
