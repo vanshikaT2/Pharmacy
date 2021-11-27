@@ -1,17 +1,9 @@
 import React, { Component } from "react";
-import MUIDataTable from "mui-datatables";
 import classes from './Medicines.css';
 import Modal from "../Modal/Modal";
-import Update from '../Update/Update';
-import Delete from '../Delete/Delete';
 import { connect } from 'react-redux';
 import * as actionTypes from '../../containers/store/actions/actionTypes';
-import { createTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import Table from '../Table/Table';
-
-
-// let arr = [];
-// let data = [];
 
 class Medicines extends Component {
     state = {
@@ -29,10 +21,8 @@ class Medicines extends Component {
         data: []
     }
     cancelHandler = () => {
-        this.setState({ openModal: false })
-        this.setState({ openUpdateModal: false })
         this.setState({
-            medicine: {
+            openModal: false, openUpdateModal: false, medicine: {
                 name: '',
                 manu: '',
                 price: '',
@@ -41,50 +31,12 @@ class Medicines extends Component {
             }
         })
     };
-    addName = (event) => {
-        this.setState(prevState => ({
-            ...prevState,
-            medicine: {
-                ...prevState.medicine,
-                name: event.target.value
-            }
-        }))
-    };
-    addManu = (event) => {
-        this.setState(prevState => ({
-            ...prevState,
-            medicine: {
-                ...prevState.medicine,
-                manu: event.target.value
-            }
-        }))
-    };
-    addPrice = (event) => {
-        this.setState(prevState => ({
-            ...prevState,
-            medicine: {
-                ...prevState.medicine,
-                price: event.target.value
-            }
-        }))
-    };
-    addStock = (event) => {
-        this.setState(prevState => ({
-            ...prevState,
-            medicine: {
-                ...prevState.medicine,
-                stock: event.target.value
-            }
-        }))
-    };
-    addDisc = (event) => {
-        this.setState(prevState => ({
-            ...prevState,
-            medicine: {
-                ...prevState.medicine,
-                disc: event.target.value
-            }
-        }))
+    addDetails = (event, key) => {
+
+        let updatedMedicine = { ...this.state.medicine };
+        updatedMedicine[key] = event.target.value;
+
+        this.setState({ medicine: updatedMedicine });
     };
 
     addMed = () => {
@@ -106,91 +58,40 @@ class Medicines extends Component {
             this.state.data[index] = this.state.arr
             this.setState({ openUpdateModal: false })
         }
-        this.setState({ index: undefined })
-        this.setState({ openModal: false, arr: [] })
-        // this.props.onMedicineAdded(this.state.data);
         this.setState({
-            medicine: {
+            index: undefined, openModal: false, arr: [], medicine: {
                 name: '',
                 manu: '',
                 price: '',
                 stock: '',
                 disc: ''
             }
-
         })
         localStorage.setItem("medData", JSON.stringify(this.state.data));
         this.props.onMedicineAdded(this.state.data);
-
-
     };
 
     updateMed = (index) => {
         // let index = event.target.parentNode.parentNode.id;
-        this.setState({ index: index });
-        this.setState({ openUpdateModal: true });
         this.setState({
-            medicine: {
+            index: index, openUpdateModal: true, medicine: {
                 name: this.state.data[index][0],
                 manu: this.state.data[index][1],
                 price: this.state.data[index][2],
                 stock: this.state.data[index][3],
                 disc: this.state.data[index][4],
             }
-        })
+        });
         localStorage.setItem("medData", JSON.stringify(this.state.data));
-
     };
+
     deleteMed = (index) => {
         this.setState({ index: index });
         this.state.data.splice(index, 1);
         this.setState({ index: undefined })
         // console.log(data);
         localStorage.setItem("medData", JSON.stringify(this.state.data));
-
-
     };
-
-
-    // getMuiTheme = () => createTheme({
-    //     overrides: {
-    //         MUIDataTableHeadCell: {
-    //             root: {
-    //                 borderColor: "black"
-    //             },
-    //             data: {
-    //                 fontSize: "18px"
-    //             }
-    //         },
-    //         MuiIconButton: {
-    //             label: {
-    //                 display: "none"
-    //             }
-    //         },
-    //         MuiTablePagination: {
-    //             toolbar: {
-    //                 display: "none"
-    //             }
-    //         },
-    //         MUIDataTableToolbar: {
-    //             root: {
-    //                 backgroundColor: "#FFE7E7"
-    //             }
-    //         },
-    //         MuiTypography: {
-    //             h6: {
-    //                 fontSize: "1.5rem",
-    //                 fontFamily: "Noto Sans Mono, monospace"
-    //             }
-    //         },
-    //         MUIDataTableBodyCell: {
-    //             root: {
-    //                 fontSize: "1rem",
-    //                 color: "#4f4e4e"
-    //             }
-    //         },
-    //     }
-    // })
 
     componentDidMount() {
         let meds = JSON.parse(localStorage.getItem("medData"));
@@ -206,50 +107,17 @@ class Medicines extends Component {
 
         const columns = [
             "Medicine Name", "Manufacturer", "Price", "Stock", "Discount(in %)", "", ""];
-        // {
-        //     name: "",
-        //     options: {
-        //         customBodyRender: (value, tableMeta, updateValue) => {
 
-        //             return (
-
-        //                 <Update
-        //                     function={() => this.updateMed(tableMeta.rowIndex)}
-        //                 />
-        //             );
-        //         }
-        //     }
-        // },
-        // {
-        //     name: "",
-        //     options: {
-        //         customBodyRender: (value, tableMeta, updateValue) => {
-
-        //             return (
-
-        //                 <Delete
-        //                     function={() => this.deleteMed(tableMeta.rowIndex)}
-        //                 />
-        //             );
-        //         }
-        //     }
-        // }
-
-        // const options = {
-        //     viewColumns: false,
-        //     print: false,
-        //     download: false
-        // };
         return (
             <div className={classes.Med}>
 
                 <button className={classes.button} onClick={() => this.setState({ openModal: true })}>ADD MEDICINE</button>
                 <Modal open={this.state.openModal}>
-                    <input className={classes.ModalInput} value={this.state.medicine.name} onChange={this.addName} placeholder='Medicine Name'></input>
-                    <input className={classes.ModalInput} value={this.state.medicine.manu} onChange={this.addManu} placeholder='Manufacturer'></input>
-                    <input className={classes.ModalInput} value={this.state.medicine.price} onChange={this.addPrice} placeholder='Price'></input>
-                    <input className={classes.ModalInput} value={this.state.medicine.stock} onChange={this.addStock} placeholder='Stock'></input>
-                    <input className={classes.ModalInput} value={this.state.medicine.disc} onChange={this.addDisc} placeholder='Discount(in %)'></input>
+                    <input className={classes.ModalInput} value={this.state.medicine.name} onChange={(event) => this.addDetails(event, 'name')} placeholder='Medicine Name'></input>
+                    <input className={classes.ModalInput} value={this.state.medicine.manu} onChange={(event) => this.addDetails(event, 'manu')} placeholder='Manufacturer'></input>
+                    <input className={classes.ModalInput} value={this.state.medicine.price} onChange={(event) => this.addDetails(event, 'price')} placeholder='Price'></input>
+                    <input className={classes.ModalInput} value={this.state.medicine.stock} onChange={(event) => this.addDetails(event, 'stock')} placeholder='Stock'></input>
+                    <input className={classes.ModalInput} value={this.state.medicine.disc} onChange={(event) => this.addDetails(event, 'disc')} placeholder='Discount(in %)'></input>
                     <button className={classes.cancel} type="button" onClick={this.cancelHandler}>
                         Cancel
                     </button>
@@ -258,11 +126,11 @@ class Medicines extends Component {
                     </button>
                 </Modal>
                 <Modal open={this.state.openUpdateModal}>
-                    <input className={classes.ModalInput} value={this.state.medicine.name} onChange={this.addName} placeholder='Medicine Name'></input>
-                    <input className={classes.ModalInput} value={this.state.medicine.manu} onChange={this.addManu} placeholder='Manufacturer'></input>
-                    <input className={classes.ModalInput} value={this.state.medicine.price} onChange={this.addPrice} placeholder='Price'></input>
-                    <input className={classes.ModalInput} value={this.state.medicine.stock} onChange={this.addStock} placeholder='Stock'></input>
-                    <input className={classes.ModalInput} value={this.state.medicine.disc} onChange={this.addDisc} placeholder='Discount(in %)'></input>
+                    <input className={classes.ModalInput} value={this.state.medicine.name} onChange={(event) => this.addDetails(event, 'name')} placeholder='Medicine Name'></input>
+                    <input className={classes.ModalInput} value={this.state.medicine.manu} onChange={(event) => this.addDetails(event, 'manu')} placeholder='Manufacturer'></input>
+                    <input className={classes.ModalInput} value={this.state.medicine.price} onChange={(event) => this.addDetails(event, 'price')} placeholder='Price'></input>
+                    <input className={classes.ModalInput} value={this.state.medicine.stock} onChange={(event) => this.addDetails(event, 'stock')} placeholder='Stock'></input>
+                    <input className={classes.ModalInput} value={this.state.medicine.disc} onChange={(event) => this.addDetails(event, 'disc')} placeholder='Discount(in %)'></input>
                     <button className={classes.cancel} type="button" onClick={this.cancelHandler}>
                         Cancel
                     </button>
@@ -270,15 +138,7 @@ class Medicines extends Component {
                         Update
                     </button>
                 </Modal>
-                {/* <MuiThemeProvider theme={this.getMuiTheme()}>
-                    <MUIDataTable
-                        title={"Inventory"}
-                        data={this.state.data}
-                        columns={columns}
-                        options={options}
 
-                    />
-                </MuiThemeProvider> */}
                 <Table heading={columns} body={this.state.data} Update={this.updateMed} Delete={this.deleteMed} />
             </div>
         )

@@ -1,52 +1,46 @@
 import React, { Component } from 'react';
-// import logo from './logo.svg';
 import { Route, Switch } from 'react-router-dom';
 import Auth from './containers/Auth/Auth'
-import { connect } from 'react-redux';
-// import * as actionTypes from '../../store/action';
-import SalesExecutive from './containers/SalesExecutive/SalesExecutive';
-import StoreManager from './containers/StoreManager/StoreManager';
 import Error from './components/error'
-
-// let main=null;
-
-// if(this.props.uType==='test-admin')
-// main={StoreManager}
-// else if(this.props.uType==='test-admin')
-// main={SalesExecutive}
-// else
-// main={Error}
+import Executives from "./components/Executives/Executives";
+import Medicines from "./components/Medicines/Medicines";
+import Order from "./components/Order/Order";
+import OrderHistory from "./components/OrderHistory/OrderHistory";
+import SidebarAdmin from './components/Sidebar/SidebarAdmin';
+import Sidebar from './components/Sidebar/SidebarSales';
+import { withRouter } from 'react-router';
+import classes from './App.css';
 
 class App extends Component {
 
+  logOut = () => {
+    this.props.history.push('/')
+    localStorage.setItem('userType', 'null')
+  }
   render() {
-    // console.log(this.props.uType)
-    // let main = null;
-
-    // if (this.props.uType === 'storeManager')
-    //   main = StoreManager
-    // else if (this.props.uType === 'salesExecutive')
-    //   main = SalesExecutive
-    // else
-    //   main =  Error
+    // console.log(this.props)
+    let sidebar = null;
+    if (localStorage.getItem('userType') === 'admin')
+      sidebar = <SidebarAdmin logout={this.logOut} />
+    else if (localStorage.getItem('userType') === 'sales')
+      sidebar = <Sidebar logout={this.logOut} />
     return (
-      <div>
+      <div className={classes.Content}>
+        <div className={classes.empty}></div>
+        {sidebar}
         <Switch>
-          <Route path="/admin" component={StoreManager} />
-          <Route path="/sales" component={SalesExecutive} />
+          <Route path="/admin/executives" component={Executives} />
+          <Route path='/admin/inventory' component={Medicines} />
+          <Route path='/admin/placeorder' component={Order} />
+          <Route path='/admin/orders' component={OrderHistory} />
+          <Route path='/sales/placeorder' component={Order} />
+          <Route path='/sales/orders' component={OrderHistory} />
           <Route path="/error" component={Error} />
           <Route path="/" exact component={Auth} />
-          {/* <Route path="/main" component={main} /> */}
         </Switch>
       </div>
     );
   }
 }
 
-// const mapStateToProps = state => {
-//   return {
-//     uType: state.userType
-//   }
-// }
-
-export default App;
+export default withRouter(App);

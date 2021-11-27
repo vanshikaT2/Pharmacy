@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
-import MUIDataTable from "mui-datatables";
 import classes from './OrderHistory.css';
 import Delete from "../Delete/Delete";
-import { createTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import * as actionTypes from '../../containers/store/actions/actionTypes';
 import OrderTable from "../Table/OrderTable/OrderTable";
 
@@ -27,46 +25,6 @@ class OrderHistory extends Component {
         window.location.reload();
     };
 
-    getMuiTheme = () => createTheme({
-        overrides: {
-            MUIDataTableHeadCell: {
-                root: {
-                    borderColor: "black"
-                },
-                data: {
-                    fontSize: "18px"
-                }
-            },
-            MuiIconButton: {
-                label: {
-                    display: "none"
-                }
-            },
-            MuiTablePagination: {
-                toolbar: {
-                    display: "none"
-                }
-            },
-            MUIDataTableToolbar: {
-                root: {
-                    backgroundColor: "#FFE7E7"
-                }
-            },
-            MuiTypography: {
-                h6: {
-                    fontSize: "1.5rem",
-                    fontFamily: "Noto Sans Mono, monospace"
-                }
-            },
-            MUIDataTableBodyCell: {
-                root: {
-                    fontSize: "1rem",
-                    color: "#4f4e4e"
-                }
-            },
-        }
-    })
-
     componentDidMount() {
         let meds = [];
         if (this.props.match.path === "/admin/orders")
@@ -84,11 +42,6 @@ class OrderHistory extends Component {
         console.log(this.props)
         let arr = this.props.orders;
         console.log(arr)
-        const opt = {
-            viewColumns: false,
-            print: false,
-            download: false
-        };
         const columns = ["Medicine Name", "Quantity"]
         let order = null;
         if (arr.length !== 0) {
@@ -97,6 +50,7 @@ class OrderHistory extends Component {
                 const data = ord[0];
                 const total = ord[3]
                 const ordID = ord[4]
+                console.log(total)
                 return (
                     <div className={classes.Margin}>
                         <div >
@@ -104,15 +58,6 @@ class OrderHistory extends Component {
                             <span className={classes.Customer}>Customer Contact: {ord[2]}</span>
                             <span className={classes.Customer}>Order ID: {ordID}</span>
                         </div>
-                        {/* <MuiThemeProvider theme={this.getMuiTheme()}>
-                            <MUIDataTable
-                                title={"Total Amount: " + total}
-                                data={data}
-                                columns={columns}
-                                options={opt}
-
-                            />
-                        </MuiThemeProvider> */}
                         <OrderTable heading={columns} body={data} />
                         <div>
                             <div className={classes.Amount} >Total Amount: {total}</div>

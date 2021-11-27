@@ -1,6 +1,7 @@
 import React, { Component, useState } from "react";
 import classes from './SidebarItems.css';
 import { NavLink } from "react-router-dom";
+import { Redirect } from "react-router";
 
 const SidebarItems = (props) => {
     return (

@@ -1,14 +1,8 @@
 import React, { Component } from "react";
-import MUIDataTable from "mui-datatables";
 import classes from './Executives.css';
 import Modal from "../Modal/Modal";
-import Update from '../Update/Update';
-import Delete from '../Delete/Delete';
-import { createTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import Table from '../Table/Table';
 
-// let arr = [];
-// let data = [];
 
 class Executives extends Component {
     state = {
@@ -24,68 +18,29 @@ class Executives extends Component {
         openUpdateModal: false,
         arr: [],
         data: []
-        // refresh:data
     }
 
     cancelHandler = () => {
-        this.setState({ openModal: false })
-        this.setState({ openUpdateModal: false })
         this.setState({
-            executive: {
+            openModal: false, openUpdateModal: false, executive: {
                 fname: '',
                 lname: '',
                 dob: '',
                 gender: '',
                 exp: ''
             }
-
         })
+
     };
-    addFName = (event) => {
-        this.setState(prevState => ({
-            ...prevState,
-            executive: {
-                ...prevState.executive,
-                fname: event.target.value
-            }
-        }))
+    addDetails = (event, key) => {
+
+        let updatedExecutive = { ...this.state.executive };
+        updatedExecutive[key] = event.target.value;
+
+        this.setState({ executive: updatedExecutive });
     };
-    addLName = (event) => {
-        this.setState(prevState => ({
-            ...prevState,
-            executive: {
-                ...prevState.executive,
-                lname: event.target.value
-            }
-        }))
-    };
-    addDOB = (event) => {
-        this.setState(prevState => ({
-            ...prevState,
-            executive: {
-                ...prevState.executive,
-                dob: event.target.value
-            }
-        }))
-    };
-    addGender = (event) => {
-        this.setState(prevState => ({
-            ...prevState,
-            executive: {
-                ...prevState.executive,
-                gender: event.target.value
-            }
-        }))
-    };
-    addExp = (event) => {
-        this.setState(prevState => ({
-            ...prevState,
-            executive: {
-                ...prevState.executive,
-                exp: event.target.value
-            }
-        }))
-    };
+
+
 
     addExec = (event) => {
         event.preventDefault();
@@ -105,9 +60,8 @@ class Executives extends Component {
             this.state.data[index] = this.state.arr
             this.setState({ openUpdateModal: false })
         }
-        this.setState({ index: undefined })
-        this.setState({ openModal: false, arr: [] })
         this.setState({
+            index: undefined, openModal: false, arr: [],
             executive: {
                 fname: '',
                 lname: '',
@@ -115,24 +69,23 @@ class Executives extends Component {
                 gender: '',
                 exp: ''
             }
-
         })
+
         localStorage.setItem("execData", JSON.stringify(this.state.data));
 
     };
 
     updateExec = (index) => {
-        this.setState({ index: index });
-        this.setState({ openUpdateModal: true });
         this.setState({
-            executive: {
+            index: index, openUpdateModal: true, executive: {
                 fname: this.state.data[index][0],
                 lname: this.state.data[index][1],
                 dob: this.state.data[index][2],
                 gender: this.state.data[index][3],
                 exp: this.state.data[index][4],
             }
-        })
+        });
+
         localStorage.setItem("execData", JSON.stringify(this.state.data));
     };
     deleteExec = (index) => {
@@ -145,54 +98,6 @@ class Executives extends Component {
 
     };
 
-
-
-    // getMuiTheme = () => createTheme({
-    //     overrides: {
-    //         MUIDataTableHeadCell: {
-    //             root: {
-    //                 borderColor: "black"
-    //             },
-    //             data: {
-    //                 fontSize: "18px"
-    //             }
-    //         },
-    //         MuiIconButton: {
-    //             label: {
-    //                 display: "none"
-    //             }
-    //         },
-    //         MuiTablePagination: {
-    //             toolbar: {
-    //                 display: "none"
-    //             }
-    //         },
-    //         MUIDataTableToolbar: {
-    //             root: {
-    //                 backgroundColor: "#FFE7E7"
-    //             }
-    //         },
-    //         MuiTypography: {
-    //             h6: {
-    //                 fontSize: "1.5rem",
-    //                 fontFamily: "Noto Sans Mono, monospace"
-    //             }
-    //         },
-    //         MUIDataTableBodyCell: {
-    //             root: {
-    //                 fontSize: "1rem",
-    //                 color: "#4f4e4e"
-    //             }
-    //         },
-    //     }
-    // })
-
-
-    // componentWillUnmount() {
-    //     // localStorage.setItem("execData", JSON.stringify(this.state.arr));
-    //     console.log('Hellooooooo')
-    //     localStorage.setItem("execData", JSON.stringify(this.state.data));
-    // }
     componentDidMount() {
         let execs = JSON.parse(localStorage.getItem("execData"));
         console.log(execs)
@@ -202,62 +107,19 @@ class Executives extends Component {
     }
     render() {
 
-        // window.onbeforeunload=function(){
-        //     localStorage.setItem("execData", JSON.stringify(data)); 
-        // }
-        // window.onload=function(){
-        //     const execs = JSON.parse(localStorage.getItem("execData"));
-        //     console.log(execs)
-        //         data=execs!==null?[...execs]:[];
-        //         console.log(data);
-        // };
-
         const columns = [
             "First Name", "Last Name", "DOB", "Gender", "Experience(in years)", "", ""];
-        // {
-        //     name: "",
-        //     options: {
-        //         customBodyRender: (value, tableMeta, updateValue) => {
 
-        //             return (
-
-        //                 <Update
-        //                     function={() => this.updateExec(tableMeta.rowIndex)}
-        //                 />
-        //             );
-        //         }
-        //     }
-        // },
-        // {
-        //     name: "",
-        //     options: {
-        //         customBodyRender: (value, tableMeta, updateValue) => {
-
-        //             return (
-
-        //                 <Delete
-        //                     function={() => this.deleteExec(tableMeta.rowIndex)}
-        //                 />
-        //             );
-        //         }
-        //     }
-        // }];
-
-        const options = {
-            viewColumns: false,
-            print: false,
-            download: false
-        };
         return (
             <div className={classes.Exec}>
 
                 <button className={classes.button} onClick={() => this.setState({ openModal: true })}>ADD EXECUTIVE</button>
                 <Modal open={this.state.openModal}>
-                    <input className={classes.ModalInput} value={this.state.executive.fname} onChange={this.addFName} placeholder='First Name'></input>
-                    <input className={classes.ModalInput} value={this.state.executive.lname} onChange={this.addLName} placeholder='Last Name'></input>
-                    <input className={classes.ModalInput} value={this.state.executive.dob} onChange={this.addDOB} placeholder='DOB'></input>
-                    <input className={classes.ModalInput} value={this.state.executive.gender} onChange={this.addGender} placeholder='Gender'></input>
-                    <input className={classes.ModalInput} value={this.state.executive.exp} onChange={this.addExp} placeholder='Experience(in years)'></input>
+                    <input className={classes.ModalInput} value={this.state.executive.fname} onChange={(event) => this.addDetails(event, 'fname')} placeholder='First Name'></input>
+                    <input className={classes.ModalInput} value={this.state.executive.lname} onChange={(event) => this.addDetails(event, 'lname')} placeholder='Last Name'></input>
+                    <input className={classes.ModalInput} value={this.state.executive.dob} onChange={(event) => this.addDetails(event, 'dob')} placeholder='DOB'></input>
+                    <input className={classes.ModalInput} value={this.state.executive.gender} onChange={(event) => this.addDetails(event, 'gender')} placeholder='Gender'></input>
+                    <input className={classes.ModalInput} value={this.state.executive.exp} onChange={(event) => this.addDetails(event, 'exp')} placeholder='Experience(in years)'></input>
                     <button className={classes.cancel} type="button" onClick={this.cancelHandler}>
                         Cancel
                     </button>
@@ -266,11 +128,11 @@ class Executives extends Component {
                     </button>
                 </Modal>
                 <Modal open={this.state.openUpdateModal}>
-                    <input className={classes.ModalInput} value={this.state.executive.fname} onChange={this.addFName} placeholder='First Name'></input>
-                    <input className={classes.ModalInput} value={this.state.executive.lname} onChange={this.addLName} placeholder='Last Name'></input>
-                    <input className={classes.ModalInput} value={this.state.executive.dob} onChange={this.addDOB} placeholder='DOB'></input>
-                    <input className={classes.ModalInput} value={this.state.executive.gender} onChange={this.addGender} placeholder='Gender'></input>
-                    <input className={classes.ModalInput} value={this.state.executive.exp} onChange={this.addExp} placeholder='Experience(in years)'></input>
+                    <input className={classes.ModalInput} value={this.state.executive.fname} onChange={(event) => this.addDetails(event, 'fname')} placeholder='First Name'></input>
+                    <input className={classes.ModalInput} value={this.state.executive.lname} onChange={(event) => this.addDetails(event, 'lname')} placeholder='Last Name'></input>
+                    <input className={classes.ModalInput} value={this.state.executive.dob} onChange={(event) => this.addDetails(event, 'dob')} placeholder='DOB'></input>
+                    <input className={classes.ModalInput} value={this.state.executive.gender} onChange={(event) => this.addDetails(event, 'gender')} placeholder='Gender'></input>
+                    <input className={classes.ModalInput} value={this.state.executive.exp} onChange={(event) => this.addDetails(event, 'exp')} placeholder='Experience(in years)'></input>
                     <button className={classes.cancel} type="button" onClick={this.cancelHandler}>
                         Cancel
                     </button>
@@ -278,15 +140,6 @@ class Executives extends Component {
                         Update
                     </button>
                 </Modal>
-                {/* <MuiThemeProvider theme={this.getMuiTheme()}>
-                    <MUIDataTable
-                        title={"Sales Executives"}
-                        data={this.state.data}
-                        columns={columns}
-                        options={options}
-
-                    />
-                </MuiThemeProvider> */}
                 <Table heading={columns} body={this.state.data} Update={this.updateExec} Delete={this.deleteExec} />
             </div>
         )

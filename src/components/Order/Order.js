@@ -2,15 +2,7 @@ import React, { Component } from "react";
 import { connect } from 'react-redux';
 import * as actionTypes from '../../containers/store/actions/actionTypes';
 import classes from './Order.css';
-import MUIDataTable from "mui-datatables";
-import { createTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import OrderTable from "../Table/OrderTable/OrderTable";
-
-// let medicines = [];
-// let arr = [];
-// let orderArr = [];
-// let orderHistory = [];
-// let orderID = 527196;
 
 class Order extends Component {
     state = {
@@ -23,35 +15,11 @@ class Order extends Component {
         arr: [],
         orderArr: [],
         orderHistory: [],
-        // orderID: null
     }
-
-    updateName = (event) => {
-        this.setState(prevState => ({
-            ...prevState,
-            name: event.target.value
-        }))
-        // let id = this.state.orderID + 1;
-        // this.setState({ orderID: id })
-        // console.log(this.state.orderID)
-    };
-    updateQuantity = (event) => {
-        this.setState(prevState => ({
-            ...prevState,
-            quantity: event.target.value
-        }))
-    };
-    updateCustomerName = (event) => {
-        this.setState(prevState => ({
-            ...prevState,
-            customerName: event.target.value
-        }))
-    };
-    updateCustomerID = (event) => {
-        this.setState(prevState => ({
-            ...prevState,
-            customerID: event.target.value
-        }))
+    addDetails = (event, key) => {
+        let updatedState = { ...this.state };
+        updatedState[key] = event.target.value;
+        this.setState(updatedState);
     };
 
     addMed = (event) => {
@@ -88,9 +56,9 @@ class Order extends Component {
             totalAmount += (this.state.medicines[i][1] * this.state.medicines[i][2]);
             this.state.medicines[i].splice(2, 1);
         }
-        this.state.total = totalAmount;
-        // console.log(medicines);
-        this.state.orderArr.push(this.state.medicines, this.state.customerName, this.state.customerID, this.state.total, id);
+        this.setState({ total: totalAmount })
+        console.log(totalAmount);
+        this.state.orderArr.push(this.state.medicines, this.state.customerName, this.state.customerID, totalAmount, id);
 
         this.state.orderArr !== null ? this.state.orderHistory.push(this.state.orderArr) : this.state.orderHistory;
         this.props.onOrderPlaced(this.state.orderHistory);
@@ -123,17 +91,12 @@ class Order extends Component {
         // this.setState({ orderID: id })
     }
     render() {
-        console.log(this.props)
-        console.log(this.props.meds)
-
         const array = this.props.meds;
-
         const name = [];
 
         for (let i = 0; i < array.length; i++) {
             name.push(array[i][0]);
         }
-        console.log(name)
 
         const options =
             name.map(key => {
@@ -144,11 +107,6 @@ class Order extends Component {
             })
 
         const columns = ["Medicine Name", "Quantity", "Price (per unit)"]
-        // const opt = {
-        //     viewColumns: false,
-        //     print: false,
-        //     download: false
-        // };
 
         let totalAmount = 0;
         for (let i = 0; i < this.state.medicines.length; i++) {
@@ -157,25 +115,16 @@ class Order extends Component {
         return (
             <div className={classes.Order}>
                 <form className={classes.Input}>
-                    <input value={this.state.customerName} className={classes.formGroupInput} onChange={this.updateCustomerName} placeholder="Customer name" />
-                    <input value={this.state.customerID} className={classes.formGroupInput} onChange={this.updateCustomerID} placeholder="Customer contact" />
-                    <input list="medicines" name="browser" className={classes.Select} value={this.state.name} onChange={this.updateName} />
+                    <input value={this.state.customerName} className={classes.formGroupInput} onChange={(event) => this.addDetails(event, 'customerName')} placeholder="Customer name" />
+                    <input value={this.state.customerID} className={classes.formGroupInput} onChange={(event) => this.addDetails(event, 'customerID')} placeholder="Customer contact" />
+                    <input list="medicines" name="browser" className={classes.Select} value={this.state.name} onChange={(event) => this.addDetails(event, 'name')} />
                     <datalist id="medicines">
                         {options}
                     </datalist>
-                    <input type="number" className={classes.Select} value={this.state.quantity} onChange={this.updateQuantity}></input>
+                    <input type="number" className={classes.Select} value={this.state.quantity} onChange={(event) => this.addDetails(event, 'quantity')}></input>
                     <button className={classes.add} onClick={(e) => this.addMed(e)}>ADD</button>
 
                 </form>
-                {/* <MuiThemeProvider theme={this.getMuiTheme()}>
-                    <MUIDataTable
-                        title={"Order Summary "}
-                        data={this.state.medicines}
-                        columns={columns}
-                        options={opt}
-
-                    />
-                </MuiThemeProvider> */}
                 <OrderTable heading={columns} body={this.state.medicines} />
                 <div className={classes.Total}>Total Amount: {totalAmount}</div>
                 <button className={classes.PlaceOrder} onClick={this.placeOrder}>Place Order</button>

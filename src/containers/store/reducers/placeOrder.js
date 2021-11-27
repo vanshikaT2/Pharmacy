@@ -5,13 +5,6 @@ const initialState = {
     orderH: []
 };
 
-// const addtoInventory = ( state, action ) => {
-//     state.inventory=action.data
-// };
-// const updateInventory = ( state, action ) => {
-//     state.inventory[action.index]=action.data;
-// };
-
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.ADD_INVENTORY:
@@ -19,11 +12,6 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 inventory: action.data
             };
-        // case actionTypes.ORDER_HISTORY: 
-        // return{
-        //     ...state,
-        //     inventory:action.data
-        // };
         case actionTypes.ADD_ORDERS:
             return {
                 ...state,
